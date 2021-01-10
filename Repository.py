@@ -26,23 +26,23 @@ class Repository:
     def create_tables(self):
         self._conn.executescript("""
         CREATE TABLE vaccines(
-                id INTEGER PRIMARY KEY
-                date DATE NOT NULL
-                supplier INTEGER REFERENCES Supplier(id)
+                id INTEGER PRIMARY KEY,
+                date DATE NOT NULL,
+                supplier INTEGER REFERENCES Supplier(id),
                 quantity INTEGER NOT NULL);
         CREATE TABLE suppliers(
-                id INTEGER PRIMARY KEY
-                name STRING NOT NULL
+                id INTEGER PRIMARY KEY,
+                name STRING NOT NULL,
                 logistic INTEGER REFERENCES Logistic(id));    
         CREATE TABLE clinics(
-                id INTEGER PRIMARY KEY
-                location STRING NOT NULL
-                demand INTEGER NOT NULL
+                id INTEGER PRIMARY KEY,
+                location STRING NOT NULL,
+                demand INTEGER NOT NULL,
                 logistic INTEGER REFERENCES Logistic(id));
         CREATE TABLE logistics(
-                id INTEGER PRIMARY KEY
-                name STRING NOT NULL
-                count sent INTEGER NOT NULL
+                id INTEGER PRIMARY KEY,
+                name STRING NOT NULL,
+                count sent INTEGER NOT NULL,
                 count received INTEGER NOT NULL );
     """)
 
