@@ -6,14 +6,14 @@ class Clinics:
 
     def insert(self, coffee_stand):
         if coffee_stand.number_of_employees == None:
-            self._conn.execute("INSERT INTO Coffee_stands VALUES (?, ?)", [coffee_stand.id, coffee_stand.location])
+            self._conn.execute("INSERT INTO Clinics VALUES (?, ?)", [coffee_stand.id, coffee_stand.location])
         else:
-            self._conn.execute("INSERT INTO Coffee_stands VALUES (?, ?, ?)", [coffee_stand.id, coffee_stand.location, coffee_stand.number_of_employees])
+            self._conn.execute("INSERT INTO Clinics VALUES (?, ?, ?)", [coffee_stand.id, coffee_stand.location, coffee_stand.number_of_employees])
 
 
     def print_coffee_stands(self):
         c = self._conn.cursor()
-        c.execute("SELECT * FROM Coffee_stands ORDER BY id ASC")
+        c.execute("SELECT * FROM Clinics ORDER BY id ASC")
         list = c.fetchall()
 
         return list
