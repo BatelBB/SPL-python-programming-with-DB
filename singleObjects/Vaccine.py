@@ -1,6 +1,7 @@
 # Data Transfer Objects:
 class Vaccine:
-    def __init__(self, vaccine_bulk_id, date, amount):
-        self.vaccine_bulk_id = vaccine_bulk_id
+    def __init__(self, id, date, supplier, quantity):
+        self.id = id
         self.date = date
-        self.amount = amount
+        self.supplier = supplier
+        self.quantity = quantity

@@ -1,7 +1,7 @@
 # Data Transfer Objects:
 class Supplier:
-    def __init__(self, id, name, amount, date):
+    def __init__(self, id, name, logistic):
         self.id = id
         self.name = name
-        self.amount = amount
-        self.date = date
+        self.logistic = logistic
+

@@ -1,6 +1,7 @@
 # Data Transfer Objects:
 class Clinic:
-    def __init__(self, id, location, amount):
+    def __init__(self, id, location, demand, logistic):
         self.id = id
         self.location = location
-        self.amount = amount
+        self.demand = demand
+        self.logistic = logistic
