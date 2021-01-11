@@ -3,21 +3,19 @@ import atexit
 import os
 import _sqlite3
 
-#from pluralObjects.Activities import Activities
-#from pluralObjects.Coffee_stands import Coffee_stands
-#from pluralObjects.Employees import Employees
-#from pluralObjects.Products import Products
-#from pluralObjects.Suppliers import Suppliers
+from pluralObjects.Clinics import Clinics
+from pluralObjects.Logistics import Logistics
+from pluralObjects.Suppliers import Suppliers
+from pluralObjects.Vaccines import Vaccines
 
 
 class Repository:
     def __init__(self):
         self._conn = _sqlite3.connect('database.db')
-        #self.employees = Employees(self._conn)
-        #self.coffee_stands = Coffee_stands(self._conn)
-        #self.products = Products(self._conn)
-        #self.suppliers = Suppliers(self._conn)
-        #self.activities = Activities(self._conn)
+        self.clinics = Clinics(self._conn)
+        self.logistics = Logistics(self._conn)
+        self.suppliers = Suppliers(self._conn)
+        self.vaccines = Vaccines(self._conn)
 
     def _close(self):
         self._conn.commit()
