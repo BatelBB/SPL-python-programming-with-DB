@@ -24,7 +24,7 @@ class Repository:
     def create_tables(self):
         self._conn.executescript("""
         CREATE TABLE vaccines(
-                id INTEGER PRIMARY KEY,
+                id integer primary key autoincrement
                 date DATE NOT NULL,
                 supplier INTEGER REFERENCES Supplier(id),
                 quantity INTEGER NOT NULL);
