@@ -6,10 +6,9 @@ import Repository
 #from singleObjects.Product import Product
 
 
-def add_activity_to_Activities(filePath, repo):
-    with open(filePath) as file:
+def add_order_to_Orders(filePath, repo):
+    with open(filePath, 'r') as file:
         for line in file:
-            line = line.strip()
             splitted_line = line.split(', ')
             product = Product(splitted_line[0], '', '', splitted_line[1])
             if int(splitted_line[1]) > 0:
