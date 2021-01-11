@@ -5,3 +5,5 @@ class Summary:
         self.total_demand = total_demand
         self.total_received = total_received
         self.total_sent = total_sent
+
+
