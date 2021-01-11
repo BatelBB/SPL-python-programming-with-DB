@@ -22,27 +22,30 @@ class Repository:
         self._conn.close()
 
     def create_tables(self):
-        self._conn.executescript("""
+        c = self._conn.cursor()
+        c.executescript("""
         CREATE TABLE vaccines(
-                id integer primary key autoincrement
-                date DATE NOT NULL,
-                supplier INTEGER REFERENCES Supplier(id),
-                quantity INTEGER NOT NULL);
+                id integer primary key autoincrement,
+                date TEXT NOT NULL,
+                quantity INTEGER NOT NULL,
+                supplier INTEGER NOT NULL,
+		        FOREIGN KEY(supplier) REFERENCES suppliers(id));
         CREATE TABLE suppliers(
                 id INTEGER PRIMARY KEY,
-                name STRING NOT NULL,
-                logistic INTEGER REFERENCES Logistic(id));    
+                name TEXT NOT NULL,
+                logistic INTEGER NOT NULL,
+                FOREIGN KEY(logistic)  REFERENCES logistics(id));    
         CREATE TABLE clinics(
                 id INTEGER PRIMARY KEY,
-                location STRING NOT NULL,
+                location TEXT NOT NULL,
                 demand INTEGER NOT NULL,
-                logistic INTEGER REFERENCES Logistic(id));
+                logistic INTEGER NOT NULL,
+                FOREIGN KEY(logistic)  REFERENCES logistics(id));
         CREATE TABLE logistics(
                 id INTEGER PRIMARY KEY,
-                name STRING NOT NULL,
-                count sent INTEGER NOT NULL,
-                count received INTEGER NOT NULL );
-    """)
+                name TEXT NOT NULL,
+                count_sent INTEGER NOT NULL,
+                count_received INTEGER NOT NULL);""")
 
 
 # the repository singleton
