@@ -4,30 +4,21 @@ class Vaccines:
     def __init__(self, conn):
         self._conn = conn
 
-    def insert(self, activity):
-        if activity.activator_id == None:
-            self._conn.execute("INSERT INTO Activities VALUES (?, ?, ?)", [activity.product_id, activity.quantity, activity.date])
-        else:
-            self._conn.execute("INSERT INTO Activities VALUES (?, ?, ?, ?)", [activity.product_id, activity.quantity, activity.activator_id, activity.date])
+    def insert(self, vaccine):
+        self._conn.execute("INSERT INTO Vaccinces VALUES (?, ?, ?)", [vaccine.date,
+                                                                         vaccine.supplier, vaccine.quantity])
 
-    def print_activities(self):
+    def update_amount_in_quantity(self, supplier, amount):
+        self._conn.execute("UPDATE Vaccines SET quantity = quantity - " + amount + " WHERE supplier = " + supplier)
+
+
+    def delete_row_from_vaccine_table(self, quantity):
+        self._conn.execute("DELETE FROM vaccines WHERE quantity = " + quantity)
+
+    def get_vaccine_quantity_by_clinic_location(self, location):
         c = self._conn.cursor()
-        c.execute("SELECT * FROM Activities ORDER BY date ASC")
-        list = c.fetchall()
-
-        return list
-
-    def print_activities_report(self):
-        c = self._conn.cursor()
-        c.execute(
-            "SELECT activity.date, product.description, activity.quantity, employee.name, supplier.name FROM Activities activity LEFT JOIN Products as product ON activity.product_id = product.id LEFT JOIN Employees as employee ON activity.activator_id = employee.id LEFT JOIN Suppliers as supplier ON activity.activator_id = supplier.id ORDER BY activity.date ASC")
-        activities_info_list = c.fetchall()
-        if activities_info_list.__len__() > 0:
-            print("\nActivities")
-            # activities_info_list[0] - activity_date
-            # activities_info_list[1] - activity_product_name
-            # activities_info_list[1] - activity_product_quantity_sold
-            # activities_info_list[3] - activity_employee_name
-            # activities_info_list[4] - activity_supplier_name
-            for activity_info in activities_info_list:
-                print(activity_info)
+        c.execute("""SELECT quantity
+                    FROM vaccines, clinics
+                    JOIN suppliers ON vaccines.supplier = suppliers.id AND suppliers.logistic = clinics.logistic
+                    WHERE clinics.location = """+ location)
+        return c.fetchone()

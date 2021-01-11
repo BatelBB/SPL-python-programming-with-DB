@@ -5,15 +5,18 @@ class Suppliers:
         self._conn = conn
 
     def insert(self, supplier):
-        if supplier.contact_information == None:
-            self._conn.execute("INSERT INTO Suppliers VALUES (?, ?)", [supplier.id, supplier.name])
-        else:
-            self._conn.execute("INSERT INTO Suppliers VALUES (?, ?, ?)", [supplier.id, supplier.name, supplier.contact_information])
+        self._conn.execute("INSERT INTO Suppliers VALUES (?, ?, ?)", [supplier.id, supplier.name, supplier.logistic])
 
-
-    def print_suppliers(self):
+    def get_logistic_from_supplier(self, name):
         c = self._conn.cursor()
-        c.execute("SELECT * FROM Suppliers ORDER BY id ASC")
-        list = c.fetchall()
+        c.execute("""SELECT logistic
+                    FROM suppliers
+                    WHERE suppliers.name = """ + name)
+        return c.fetchone()
 
-        return list
+    def get_supplier_id_from_supplier_name(self, name):
+        c = self._conn.cursor()
+        c.execute("""SELECT id
+                            FROM suppliers
+                            WHERE suppliers.name = """ + name)
+        return c.fetchone()
