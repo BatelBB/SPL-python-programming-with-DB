@@ -52,8 +52,8 @@ def main(args):
     inputfilename = args[1]
     repo = Repository.repo
     repo.__init__()
-    (inputfilename, repo)
-
+    repo.create_tables()
+    add_information_to_tables(inputfilename, repo)
 
 if __name__ == '__main__':
     main(sys.argv)
