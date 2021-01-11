@@ -1,34 +1,41 @@
 import sys
 
 import Repository
-#from printdb import printdb
-#from singleObjects.Activity import Activity
-#from singleObjects.Product import Product
+from pluralObjects.Summaries import Summaries
 
-
-def add_order_to_Orders(filePath, repo):
+def executeOrders(filePath, repo):
     with open(filePath, 'r') as file:
         for line in file:
-            splitted_line = line.split(', ')
-            product = Product(splitted_line[0], '', '', splitted_line[1])
-            if int(splitted_line[1]) > 0:
-                repo.products.update_product_quantity(product)
-                activity = Activity(splitted_line[0], splitted_line[1], splitted_line[2], splitted_line[3])
-                repo.activities.insert(activity)
-            elif int(splitted_line[1]) < 0:
-                product_quantity = repo.products.get_product_quantity_by_product_id(product)
-                if product_quantity >= -int(splitted_line[1]):
-                    repo.products.update_product_quantity(product)
-                    activity = Activity(splitted_line[0], splitted_line[1], splitted_line[2], splitted_line[3])
-                    repo.activities.insert(activity)
+            split_line = line.split(', ')
+            if len(split_line) == 2:  ### Send shipment
+                repo.Clinics.remove_amount_from_demand(split_line[0], int(split_line[1]))
+
+                locationLogi = repo.Logistics.get_logistics_id_from_clinics(split_line[0])
+                repo.Logistics.update_count_sent(int(split_line[1]), locationLogi)
+
+                vaccinesQuantity = repo.Vaccines.get_vaccine_quantity_by_clinic_location(split_line[0])
+                if vaccinesQuantity > int(split_line[1]):
+                    repo.Vaccines.update_amount_in_quantity(int(split_line[1]))
+                elif vaccinesQuantity == int(split_line[1]):
+                    repo.Vaccines.delete_row_from_vaccine_table(int(split_line[1]))
+                else:  #### TODO add the logic for the sum
+                    sum = sum + (int(split_line[1]) - vaccinesQuantity)
+                    repo.Vaccines.delete_row_from_vaccine_table(vaccinesQuantity)
+                Summaries.totalSent(int(split_line[1]))
+            elif len(split_line) == 3:  ### Receive shipment
+                logisticID = repo.Suppliers.get_logistic_from_supplier(split_line[0])
+                repo.Logistics.update_count_received(split_line[1], logisticID)
+
+                supplierID = repo.Suppliers.get_supplier_id_from_supplier_name(split_line[0])
+                repo.vaccines.insert(supplierID, split_line[1], split_line[2])
+                Summaries.totalReceived(int(split_line[1]))
 
 
 def main(args):
-    inputfilename = args[1]
+    inputfilename = args[2]
     repo = Repository.repo
     repo.__init__()
-    #(inputfilename, repo)
-    #printdb(repo)
+    (inputfilename, repo)
 
 
 if __name__ == '__main__':
