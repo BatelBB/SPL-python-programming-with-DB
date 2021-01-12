@@ -3,6 +3,7 @@ import sys
 import Repository
 from pluralObjects.Summaries import Summaries
 
+
 def executeOrders(filePath, repo):
     with open(filePath, 'r') as file:
         for line in file:
@@ -32,10 +33,10 @@ def executeOrders(filePath, repo):
 
 
 def main(args):
-    inputfilename = args[2]
+    # inputfilename = args[2]
     repo = Repository.repo
     repo.__init__()
-    (inputfilename, repo)
+    # (inputfilename, repo)
 
 
 if __name__ == '__main__':
