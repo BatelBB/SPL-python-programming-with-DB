@@ -5,7 +5,7 @@ class Clinics:
         self._conn = conn
 
     def insert(self, clinic):
-        self._conn.execute("INSERT INTO Clinics VALUES (?, ?, ?, ?))", [clinic.id, clinic.location,
+        self._conn.execute("INSERT INTO Clinics VALUES (?, ?, ?, ?) ", [clinic.id, clinic.location,
                                                                         clinic.demand, clinic.logistic])
 
     def remove_amount_from_demand(self, clinic, amount):
