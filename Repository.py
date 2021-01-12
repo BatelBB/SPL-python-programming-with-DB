@@ -29,7 +29,7 @@ class Repository:
                 date TEXT NOT NULL,
                 quantity INTEGER NOT NULL,
                 supplier INTEGER NOT NULL,
-		        FOREIGN KEY(supplier) REFERENCES suppliers(id));
+                FOREIGN KEY(supplier) REFERENCES suppliers(id));
         CREATE TABLE suppliers(
                 id INTEGER PRIMARY KEY,
                 name TEXT NOT NULL,
